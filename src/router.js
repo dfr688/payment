@@ -16,6 +16,16 @@ export default new Router({
       component: () => import('./views/my/My')
     },
     {
+      path: '/withdraw',
+      name: 'withdraw',
+      component: () => import('./views/withdraw/Withdraw')
+    },
+    {
+      path: '/record',
+      name: 'record',
+      component: () => import('./views/withdraw/Record')
+    },
+    {
       path: '*',
       redirect: '/home'
     }

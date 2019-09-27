@@ -17,14 +17,14 @@ export default {
   data () {
     return {
       swiperOption: {
-					direction: 'vertical',
-					slidesPerView: 'auto',
-					freeMode: true,
-					setWrapperSize: true,
-					// mousewheel:true,
+				direction: 'vertical',
+				slidesPerView: 'auto',
+				freeMode: true,
+				setWrapperSize: true,
+				// mousewheel:true,
 			}
-    }
-		},
+    	}
+	},
 	
 	components: {
 			swiper,

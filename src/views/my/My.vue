@@ -1,31 +1,236 @@
 <template>
   <div class="my">
       <Swiper>
-          1
+          <div class="my_account">
+            <i class="back" @click="goBack"></i><p>账户</p>
+            <div class="info">
+              <i></i><span v-if="isLogin">用户名<span class="user">183****7595</span></span><span v-if="!isLogin">登录/注册</span>
+            </div>
+          </div>
+          <div class="total">
+            <p>累计收款<i></i></p>
+            <div>
+              <div class="left">
+                ¥ 5560.58
+              </div>
+              <div class="right" @click="goWithdraw">
+                提现
+              </div>
+            </div>
+            <ul>
+              <li class="confirm"></li>
+              <li class="bank"></li>
+              <li class="record"></li>
+            </ul>
+          </div>
+          <ul class="types">
+            <li>
+              <div class="left">
+                <i class="type_one"></i><span>登录密码</span>
+              </div>
+              <div class="right">
+                <span></span>
+              </div>
+            </li>
+            <li>
+              <div class="left">
+                <i class="type_two"></i><span>交易密码</span>
+              </div>
+              <div class="right">
+                <span></span>
+              </div>
+            </li>
+            <li>
+              <div class="left">
+                <i class="type_three"></i><span>隐私政策</span>
+              </div>
+              <div class="right">
+                <span></span>
+              </div>
+            </li>
+            <li>
+              <div class="left">
+                <i class="type_four"></i><span>版本信息</span>
+              </div>
+              <div class="right">
+                v2.1
+              </div>
+            </li>
+          </ul>
+          <Btn text="退出登录"/>
       </Swiper>    
   </div>
 </template>
 
 <script>
 import Swiper from '../../components/common/Swiper'
+import Btn from '../../components/common/Btn'
 export default {
  name: "",
   data () {
     return {
+      isLogin: false
     }
   },
   components: {
-      Swiper
+      Swiper,
+      Btn
   },
   computed: {},
   watch: {},
-  methods: {},
+  methods: {
+    goBack() {
+      this.$router.push("/home");
+    },
+    // 提现
+    goWithdraw() {
+      this.$router.push("/withdraw");
+    }
+  },
   created () {},
   mounted () {},
 }
 </script>
 <style lang="scss" scoped>
+@import '../../assets/scss/_mixins.scss';
 .my{
     height: 100%;
+    .my_account{
+      width: 100%;
+      height: 4.86rem;
+      @include bg_image;
+      color: #fff;
+      font-size: .42rem;
+      padding-top: .66rem;
+      position: relative;
+      i{
+        width: .48rem;
+        height: .48rem;
+        &.back{
+          position: absolute;
+          top: .74rem;
+          left: .4rem;
+          @include background_img("./images/back.png");
+        }
+      }
+      p{
+        text-align: center;
+      }
+      .info{
+        margin-left: .4rem;
+        margin-top: .8rem;
+        i{
+          display: inline-block;
+          @include background_img("../home/images/person.png");
+          margin-bottom: -.08rem;
+          margin-right: .2rem;
+        }
+        span{
+          .user{
+            font-size: .32rem;
+            margin-left: .3rem;
+          }
+        }
+      }
+    }
+    .total{
+      font-size: .32rem;
+      width: 6.7rem;
+      margin: 0 auto;
+      margin-top: -1.8rem;
+      border-radius: .1rem .1rem 0 0;
+      position: relative;
+      background: #fff;
+      padding: .3rem;
+      p{
+        color: #666;
+        i{
+          display: inline-block;
+          width: .38rem;
+          height: .24rem;
+          @include background_img("./images/eye.png");
+          margin-left: .1rem;
+        }
+      }
+      >div{
+        @include flex;
+        margin-top: .2rem;
+        .left{
+          font-size: .6rem;
+        }
+        .right{
+          width: 1.4rem;
+          height: .6rem;
+          line-height: .6rem;
+          background: #495aff;
+          border-radius: .3rem;
+          text-align: center;
+          color: #fff;
+          margin-left: 1rem;
+        }
+      }
+      ul{
+        display: flex;
+        margin-top: .7rem;
+        li{
+          width: 2rem;
+          height: 2rem;
+          margin: 0 .15rem;
+          &.confirm{
+            @include background_img("./images/confirm.png");
+          }
+          &.bank{
+            @include background_img("./images/bank.png");
+          }
+          &.record{
+            @include background_img("./images/record.png");
+          }
+        }
+      }
+    }
+    .types{
+      font-size: .32rem;
+      margin: 0 .4rem;
+      li{
+        @include flex;
+        padding-bottom: .3rem;
+        margin-bottom: .3rem;
+        border-bottom: 1px solid #f1f1f1;
+        &:last-child{
+          border-bottom: none;
+        }
+        .left{
+          i{
+            display: inline-block;
+            width: .33rem;
+            height: .46rem;
+            margin-bottom: -.16rem;
+            margin-right: .26rem;
+            &.type_one{
+              @include background_img("./images/type_01.png");
+            }
+            &.type_two{
+              @include background_img("./images/type_02.png");
+            }
+            &.type_three{
+              @include background_img("./images/type_03.png");
+            }
+            &.type_four{
+              @include background_img("./images/type_04.png");
+            }
+          }
+        }
+        .right{
+          color: #999;
+          span{
+            display: inline-block;
+            width: .48rem;
+            height: .48rem;
+            @include background_img("./images/rocket.png");
+            margin-bottom: -.08rem;
+          }
+        }
+      }
+    }
 }
 </style>

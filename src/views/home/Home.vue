@@ -125,7 +125,7 @@ export default {
                     width: .48rem;
                     height: .48rem;
                     @include background_img("./images/person.png");
-                    margin-bottom: -.14rem;
+                    margin-bottom: -.18rem;
                 }
             }
         }
