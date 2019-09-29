@@ -4,7 +4,7 @@
           <div class="my_account">
             <i class="back" @click="goBack"></i><p>账户</p>
             <div class="info">
-              <i></i><span v-if="isLogin">用户名<span class="user">183****7595</span></span><span v-if="!isLogin">登录/注册</span>
+              <i></i><span v-if="isLogin">用户名<span class="user">183****7595</span></span><span v-if="!isLogin" @click="goLogin">登录/注册</span>
             </div>
           </div>
           <div class="total">
@@ -20,7 +20,7 @@
             <ul>
               <li class="confirm"></li>
               <li class="bank"></li>
-              <li class="record"></li>
+              <li class="record" @click="goDealRecord"></li>
             </ul>
           </div>
           <ul class="types">
@@ -85,6 +85,14 @@ export default {
     // 提现
     goWithdraw() {
       this.$router.push("/withdraw");
+    },
+    // 登录/注册
+    goLogin() {
+      this.$router.push("/login");
+    },
+    // 交易记录
+    goDealRecord() {
+      this.$router.push("/dealrecord");
     }
   },
   created () {},

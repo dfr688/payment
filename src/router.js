@@ -26,6 +26,26 @@ export default new Router({
       component: () => import('./views/withdraw/Record')
     },
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('./views/login/Login')
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('./views/login/Register')
+    },
+    {
+      path: '/dealrecord',
+      name: 'dealrecord',
+      component: () => import('./views/my/DealRecord')
+    },
+    {
+      path: '/success',
+      name: 'success',
+      component: () => import('./views/withdraw/Success')
+    },
+    {
       path: '*',
       redirect: '/home'
     }

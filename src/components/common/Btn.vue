@@ -1,5 +1,5 @@
 <template>
-  <div class="btn">
+  <div class="btn" @click="handle">
       <van-button type="primary">{{ text }}</van-button>
   </div>
 </template>
@@ -17,7 +17,12 @@ export default {
   components: {},
   computed: {},
   watch: {},
-  methods: {},
+  methods: {
+    handle() {
+      // 提现按钮
+      this.$emit("withDraw");
+    }
+  },
   created () {},
   mounted () {},
 }

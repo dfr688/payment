@@ -57,8 +57,21 @@
                 </div>
             </div>
         </div>
-        <Btn text="提现"/>
-      </Swiper>    
+        <Btn text="提现" @withDraw="withDraw"/>
+      </Swiper>
+      <!-- 密码弹出层 -->
+      <van-popup v-model="show" position="bottom">
+        <Pay ref="pay" @closePopup="closePopup" @forgetPopup="forgetPopup"/>
+      </van-popup>
+      <van-popup class="pop" v-model="show2">
+        <div class="boxs forgetTip">
+            <p>提示</p>
+            <span>商户支付终端未授权</span>
+            <ul>
+            <li @click="goSure">确定</li>
+            </ul>
+        </div>
+      </van-popup>
   </div>
 </template>
 
@@ -68,6 +81,7 @@ import Btn from '../../components/common/Btn'
 import HeaderTop from '../../components/common/HeaderTop'
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import 'swiper/dist/css/swiper.css'
+import Pay from './Pay'
 export default {
  name: "",
   data () {
@@ -84,7 +98,9 @@ export default {
                 slideShadows : false 
             }
         },
-        money: ""
+        money: "",
+        show: false,
+        show2: false
     }
   },
   components: {
@@ -92,16 +108,40 @@ export default {
     HeaderTop,
     swiper,
     swiperSlide,
-    Btn
+    Btn,
+    Pay
   },
   computed: {
     
   },
   watch: {},
   methods: {
-      goRecord() {
-          this.$router.push("/record");
-      }
+    goRecord() {
+        this.$router.push("/record");
+    },
+    // 提现按钮
+    withDraw() {
+        if(this.money === ""){
+            this.$toast.fail({
+                message: '请输入提现金额',
+                duration: 1000,
+            });
+        }else{
+            this.show = true;
+        }
+    },
+    //关闭弹出层
+    closePopup() {
+        this.show = false;
+    },
+    // 忘记密码弹框中的确定按钮
+    goSure() {
+        this.show2 = false;
+    },
+    // 忘记密码弹框
+    forgetPopup() {
+        this.show2 = true;
+    },
   },
   created () {},
   mounted () {},
@@ -174,6 +214,43 @@ export default {
                 color: #ff0000;
             }
         }
+    }
+    .pop{
+        border-radius: .2rem;
+    }
+    .boxs{
+        width: 5rem;
+        background: #fff;
+        margin: 0 auto;
+        font-size: .3rem;
+        padding-top: .2rem;
+        border-radius: .2rem;
+        p{
+            text-align: center;
+            font-size: .4rem;
+            margin-bottom: .2rem;
+        }
+        span{
+            display: block;
+            text-align: center;
+            color: #999;
+            margin-bottom: .2rem;
+        }
+        ul{
+            display: flex;
+            li{
+                flex:1;
+                text-align: center;
+                padding: .2rem 0;
+                border-top: 1px solid #f1f1f1;
+                &:first-child{
+                    border-right: 1px solid #f1f1f1;
+                }
+            }
+        }
+    }
+    .forgetTip li{
+        border-right: none!important;
     }
 }
 </style>

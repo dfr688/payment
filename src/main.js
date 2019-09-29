@@ -13,6 +13,12 @@ Vue.use(Button);
 import { Swipe, SwipeItem } from 'vant';
 Vue.use(Swipe).use(SwipeItem);
 
+import { Popup } from 'vant';
+Vue.use(Popup);
+
+import { Toast } from 'vant';
+Vue.use(Toast);
+
 new Vue({
   router,
   store,
