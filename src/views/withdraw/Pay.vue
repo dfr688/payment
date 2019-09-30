@@ -68,7 +68,7 @@ export default {
   watch: {
       password(newV,oldV){
           if(newV.length == 6){
-            this.$router.push("/success");
+            this.$router.push("/apply");
           }
       }
   }

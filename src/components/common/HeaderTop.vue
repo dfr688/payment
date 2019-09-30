@@ -1,6 +1,6 @@
 <template>
   <div class="headerTop">
-      <i></i>{{ title }}<slot></slot>
+      <i @click="goBack"></i>{{ title }}<slot></slot>
   </div>
 </template>
 
@@ -17,7 +17,11 @@ export default {
   components: {},
   computed: {},
   watch: {},
-  methods: {},
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    }
+  },
   created () {},
   mounted () {},
 }

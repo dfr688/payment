@@ -19,7 +19,7 @@
                     <span class="scan"></span>
                     <p>扫一扫</p>
                 </li>
-                <li>
+                <li @click="goReceiveCode">
                     <span class="receive_code"></span>
                     <p>收款码</p>
                 </li>
@@ -34,7 +34,7 @@
                 <div class="left">
                     <i></i>最近交易
                 </div>
-                <div class="right">
+                <div class="right" @click="goDealRecord">
                     更多
                 </div>
             </div>
@@ -98,6 +98,14 @@ export default {
     //我的页面
     goMy() {
         this.$router.push("/my");
+    },
+    //更多
+    goDealRecord() {
+        this.$router.push("/dealrecord");
+    },
+    // 收款
+    goReceiveCode() {
+        this.$router.push("/receivecode");
     }
   },
   created () {},

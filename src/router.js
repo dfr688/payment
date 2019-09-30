@@ -46,6 +46,36 @@ export default new Router({
       component: () => import('./views/withdraw/Success')
     },
     {
+      path: '/apply',
+      name: 'apply',
+      component: () => import('./views/withdraw/Apply')
+    },
+    {
+      path: '/identify',
+      name: 'identify',
+      component: () => import('./views/my/Identify')
+    },
+    {
+      path: '/card',
+      name: 'card',
+      component: () => import('./views/my/Card')
+    },
+    {
+      path: '/addcard',
+      name: 'addcard',
+      component: () => import('./views/my/AddCard')
+    },
+    {
+      path: '/modify',
+      name: 'modify',
+      component: () => import('./views/my/Modify')
+    },
+    {
+      path: '/receivecode',
+      name: 'receivecode',
+      component: () => import('./views/home/ReceiveCode')
+    },
+    {
       path: '*',
       redirect: '/home'
     }

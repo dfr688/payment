@@ -18,13 +18,13 @@
               </div>
             </div>
             <ul>
-              <li class="confirm"></li>
-              <li class="bank"></li>
+              <li class="confirm" @click="goIdentify"></li>
+              <li class="bank" @click="goCard"></li>
               <li class="record" @click="goDealRecord"></li>
             </ul>
           </div>
           <ul class="types">
-            <li>
+            <li @click="goModify">
               <div class="left">
                 <i class="type_one"></i><span>登录密码</span>
               </div>
@@ -90,9 +90,21 @@ export default {
     goLogin() {
       this.$router.push("/login");
     },
+    // 实名认证
+    goIdentify() {
+      this.$router.push("/identify");
+    },
+    // 银行卡
+    goCard() {
+      this.$router.push("/card");
+    },
     // 交易记录
     goDealRecord() {
       this.$router.push("/dealrecord");
+    },
+    // 修改密码
+    goModify() {
+      this.$router.push("/modify");
     }
   },
   created () {},
