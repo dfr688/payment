@@ -76,6 +76,11 @@ export default new Router({
       component: () => import('./views/home/ReceiveCode')
     },
     {
+      path: '/paymentcode',
+      name: 'paymentcode',
+      component: () => import('./views/home/PaymentCode')
+    },
+    {
       path: '*',
       redirect: '/home'
     }

@@ -1,17 +1,14 @@
 <template>
-  <div class="receiveCode">
+  <div class="paymentCode">
       <Swiper>
           <div class="top">
-              <i></i>收款码
+              <i></i>付款码
           </div>
           <div class="contain">
-              <p>扫一扫向我付款</p>
+              <p>扫描下方二维码付款</p>
               <img src="./images/qrcode.png" alt=""/>
               <div class="prompt">
                   <i></i>每分钟自动更新，仅限当前使用
-              </div>
-              <div class="set">
-                  设置收款金额
               </div>
           </div>
       </Swiper>    
@@ -38,10 +35,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../../assets/scss/_mixins.scss';
-.receiveCode{
+.paymentCode{
     width: 100%;
     height: 100%;
-    background: #343fcb;
+    background: #b359fc;
     .top{
         font-size: .42rem;
         color: #fff;
@@ -82,18 +79,6 @@ export default {
                 margin-right: .1rem;
                 margin-bottom: -.03rem;
             }
-        }
-        .set{
-            width: 3.82rem;
-            height: .6rem;
-            border-radius: .3rem;
-            border: solid 1px #475efe;
-            font-size: .3rem;
-            color: #495aff;
-            text-align: center;
-            line-height: .6rem;
-            margin: 0 auto;
-            margin-top: .3rem;
         }
     }
 }

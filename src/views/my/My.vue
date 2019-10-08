@@ -8,10 +8,13 @@
             </div>
           </div>
           <div class="total">
-            <p>累计收款<i></i></p>
+            <p>累计收款<i :class="{noSee:isSee}" @click="isSee =!isSee"></i></p>
             <div>
-              <div class="left">
+              <div class="left" v-if="!isSee">
                 ¥ 5560.58
+              </div>
+              <div class="left" v-if="isSee">
+                * * * *
               </div>
               <div class="right" @click="goWithdraw">
                 提现
@@ -69,7 +72,8 @@ export default {
  name: "",
   data () {
     return {
-      isLogin: false
+      isLogin: false,
+      isSee: false
     }
   },
   components: {
@@ -170,6 +174,9 @@ export default {
           height: .24rem;
           @include background_img("./images/eye.png");
           margin-left: .1rem;
+          &.noSee{
+            @include background_img("./images/eye_01.png");
+          }
         }
       }
       >div{

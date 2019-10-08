@@ -23,7 +23,7 @@
                     <span class="receive_code"></span>
                     <p>收款码</p>
                 </li>
-                <li>
+                <li @click="goPaymentCode">
                     <span class="payment_code"></span>
                     <p>付款码</p>
                 </li>
@@ -106,6 +106,10 @@ export default {
     // 收款
     goReceiveCode() {
         this.$router.push("/receivecode");
+    },
+    // 付款
+    goPaymentCode() {
+        this.$router.push("/paymentcode");
     }
   },
   created () {},

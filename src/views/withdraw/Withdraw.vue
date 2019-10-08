@@ -50,9 +50,9 @@
             <span>¥</span><input type="text" v-model="money" placeholder="请输入提现金额"/>
             <div>
                 <div class="left">
-                    可提现金额520.00
+                    可提现金额{{ cost }}
                 </div>
-                <div class="right">
+                <div class="right" @click="allWithdraw">
                     全部提现
                 </div>
             </div>
@@ -100,7 +100,8 @@ export default {
         },
         money: "",
         show: false,
-        show2: false
+        show2: false,
+        cost: "520.00"
     }
   },
   components: {
@@ -118,6 +119,10 @@ export default {
   methods: {
     goRecord() {
         this.$router.push("/record");
+    },
+    // 全部提现
+    allWithdraw() {
+        this.money = this.cost;
     },
     // 提现按钮
     withDraw() {
