@@ -10,9 +10,9 @@
           <span class="icon_dot" v-if="password[i]"></span>
         </div>
       </div>
-      <div class="pay-tool-link">
+      <!-- <div class="pay-tool-link">
         <div class="link" @click="forgotPassword()">忘记密码？</div>
-      </div>
+      </div> -->
     </div>
     <div class="pay-tool-keyboard">
       <ul>

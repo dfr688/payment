@@ -4,39 +4,17 @@
             <HeaderTop title="银行卡">
               <div @click="goAddCard">添加</div>
             </HeaderTop>
-            <div class="bank one">
+            <div class="bank" :class="{one:0 ===item.num,two:1===item.num,three:2===item.num}" v-for="(item,index) in list" :key="index">
                 <div class="detail">
                     <div class="left">
-                        <img src="../withdraw/images/bank_01.png" alt=""/><span>中国银行</span>
+                        <i :class="{first: 0===item.num,second: 1===item.num,third: 2===item.num}"></i><span>{{ item.bankType }}</span>
                     </div>
                     <div class="right">
                         储蓄卡
                     </div>
                 </div>
-                <p>6666**** **** ****</p>
+                <p>{{ getNum(item.cardNo) }}</p>
             </div>
-            <div class="bank two">
-                <div class="detail">
-                    <div class="left">
-                        <img src="../withdraw/images/bank_01.png" alt=""/><span>中国银行</span>
-                    </div>
-                    <div class="right">
-                        储蓄卡
-                    </div>
-                </div>
-                <p>6666**** **** ****</p>
-            </div>
-            <div class="bank three">
-                <div class="detail">
-                    <div class="left">
-                        <img src="../withdraw/images/bank_01.png" alt=""/><span>中国银行</span>
-                    </div>
-                    <div class="right">
-                        储蓄卡
-                    </div>
-                </div>
-                <p>6666**** **** ****</p>
-            </div> 
       </Swiper>    
   </div>
 </template>
@@ -48,6 +26,7 @@ export default {
  name: "",
   data () {
     return {
+        list: []
     }
   },
   components: {
@@ -60,9 +39,33 @@ export default {
     //添加
     goAddCard() {
         this.$router.push("/addcard");
-    }   
+    },
+    // 隐藏银行卡号 四位
+      getNum(num) {
+        return "****"+" "+"****"+" "+"****"+" "+num.substr(num.length-4);
+      },   
   },
-  created () {},
+  created () {
+      let token = localStorage.getItem("token");
+      this.baseJs.ajaxReq("/payment/user/bank/card",{},"get",token)
+      .then(res => {
+        //   console.log(res);
+          let bankList = res.data;
+          for(let i=0;i<bankList.length;i++){
+              if(bankList[i].bankType ==="中国银行"){
+                  bankList[i].num = 0
+              }else if(bankList[i].bankType ==="邮政储蓄银行"){
+                  bankList[i].num = 1
+              }else if(bankList[i].bankType ==="中国建设银行"){
+                  bankList[i].num = 2
+              }
+          }
+        this.list = bankList;
+      })
+      .catch(err => {
+          console.log(err);
+      })
+  },
   mounted () {},
 }
 </script>
@@ -81,11 +84,21 @@ export default {
         .detail{
             @include flex;
             .left{
-                img{
+                i{
+                    display: inline-block;
                     width: .64rem;
                     height: .64rem;
                     margin-bottom: -.18rem;
                     margin-right: .2rem;
+                    &.first{
+                        @include background_img("../withdraw/images/bank_01.png");
+                    }
+                    &.second{
+                        @include background_img("../withdraw/images/bank_02.png");
+                    }
+                    &.third{
+                        @include background_img("../withdraw/images/bank_03.png");
+                    }
                 }
             }
             .right{

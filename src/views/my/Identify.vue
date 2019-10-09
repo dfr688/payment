@@ -8,14 +8,14 @@
           <ul>
               <li>
                   <p>姓名</p>
-                  <input type="text" placeholder="请填写您本人的真实姓名"/>
+                  <input type="text" placeholder="请填写您本人的真实姓名" v-model="personName"/>
               </li>
               <li>
                   <p>身份证号</p>
-                  <input type="text" placeholder="请填写您本人的身份证号"/>
+                  <input type="tel" placeholder="请填写您本人的身份证号" v-model="idCard"/>
               </li>
           </ul>
-          <Btn text="提交认证"/>
+          <Btn text="提交认证" @submitIdentify="submitIdentify"/>
       </Swiper>    
   </div>
 </template>
@@ -24,10 +24,13 @@
 import Swiper from '../../components/common/Swiper'
 import HeaderTop from '../../components/common/HeaderTop'
 import Btn from '../../components/common/Btn'
+import { Dialog } from 'vant';
 export default {
  name: "",
   data () {
     return {
+        personName: "",
+        idCard: ""
     }
   },
   components: {
@@ -37,7 +40,38 @@ export default {
   },
   computed: {},
   watch: {},
-  methods: {},
+  methods: {
+    //提交认证按钮
+    submitIdentify() {
+        if(this.personName === ""){
+            this.$toast({
+                message: "请输入您本人的真实姓名！",
+                duration: 1000
+            });
+        }else if(this.idCard === ""){
+            this.$toast({
+                message: "请输入您本人的身份证号！",
+                duration: 1000
+            });
+        }else{
+            let token = localStorage.getItem("token");
+            this.baseJs.ajaxReq("/payment/user/info",{name:this.personName,idCardNo:this.idCard},"post",token)
+            .then(res => {
+                // console.log(res);
+                if(res.code === 20000){
+                    Dialog.alert({
+                    message: '认证成功'
+                    }).then(() => {
+                        this.$router.push("/my");
+                    });
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
+    }   
+  },
   created () {},
   mounted () {},
 }

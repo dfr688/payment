@@ -81,6 +81,11 @@ export default new Router({
       component: () => import('./views/home/PaymentCode')
     },
     {
+      path: '/dealpsw',
+      name: 'dealpsw',
+      component: () => import('./views/my/DealPsw')
+    },
+    {
       path: '*',
       redirect: '/home'
     }

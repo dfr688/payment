@@ -71,3 +71,11 @@ textarea{
 	border: none;
 	outline: none;
 }
+
+
+.van-dialog__message{
+	font-size: .32rem!important;
+}
+.van-dialog__confirm, .van-dialog__confirm:active{
+	color: #495aff!important;
+}

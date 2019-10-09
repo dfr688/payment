@@ -5,43 +5,17 @@
             <div @click="goRecord">记录</div>
         </HeaderTop>
         <swiper :options="swiperOption">
-            <swiper-slide>
-                <div class="bank one">
+            <swiper-slide v-for="(item,index) in list" :key="index">
+                <div class="bank" :class="{one:0 ===item.num,two:1===item.num,three:2===item.num}">
                     <div class="detail">
                         <div class="left">
-                            <img src="./images/bank_01.png" alt=""/><span>中国银行</span>
+                            <i :class="{first: 0===item.num,second: 1===item.num,third: 2===item.num}"></i><span>{{ item.bankType }}</span>
                         </div>
                         <div class="right">
                             储蓄卡
                         </div>
                     </div>
-                    <p>6666**** **** ****</p>
-                </div>
-            </swiper-slide>
-            <swiper-slide>
-                <div class="bank two">
-                    <div class="detail">
-                        <div class="left">
-                            <img src="./images/bank_01.png" alt=""/><span>中国银行</span>
-                        </div>
-                        <div class="right">
-                            储蓄卡
-                        </div>
-                    </div>
-                    <p>6666**** **** ****</p>
-                </div>
-            </swiper-slide>
-            <swiper-slide>
-                <div class="bank three">
-                    <div class="detail">
-                        <div class="left">
-                            <img src="./images/bank_01.png" alt=""/><span>中国银行</span>
-                        </div>
-                        <div class="right">
-                            储蓄卡
-                        </div>
-                    </div>
-                    <p>6666**** **** ****</p>
+                    <p>{{ getNum(item.cardNo) }}</p>
                 </div>
             </swiper-slide>
         </swiper>
@@ -50,7 +24,7 @@
             <span>¥</span><input type="text" v-model="money" placeholder="请输入提现金额"/>
             <div>
                 <div class="left">
-                    可提现金额{{ cost }}
+                    可提现金额{{ balance }}
                 </div>
                 <div class="right" @click="allWithdraw">
                     全部提现
@@ -63,7 +37,7 @@
       <van-popup v-model="show" position="bottom">
         <Pay ref="pay" @closePopup="closePopup" @forgetPopup="forgetPopup"/>
       </van-popup>
-      <van-popup class="pop" v-model="show2">
+      <!-- <van-popup class="pop" v-model="show2">
         <div class="boxs forgetTip">
             <p>提示</p>
             <span>商户支付终端未授权</span>
@@ -71,7 +45,7 @@
             <li @click="goSure">确定</li>
             </ul>
         </div>
-      </van-popup>
+      </van-popup> -->
   </div>
 </template>
 
@@ -82,6 +56,7 @@ import HeaderTop from '../../components/common/HeaderTop'
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import 'swiper/dist/css/swiper.css'
 import Pay from './Pay'
+import {mapState} from 'vuex'
 export default {
  name: "",
   data () {
@@ -101,7 +76,7 @@ export default {
         money: "",
         show: false,
         show2: false,
-        cost: "520.00"
+        list: []
     }
   },
   components: {
@@ -113,7 +88,7 @@ export default {
     Pay
   },
   computed: {
-    
+    ...mapState(["balance"])
   },
   watch: {},
   methods: {
@@ -122,7 +97,7 @@ export default {
     },
     // 全部提现
     allWithdraw() {
-        this.money = this.cost;
+        this.money = this.balance;
     },
     // 提现按钮
     withDraw() {
@@ -147,8 +122,32 @@ export default {
     forgetPopup() {
         this.show2 = true;
     },
+    // 隐藏银行卡号 四位
+      getNum(num) {
+        return "****"+" "+"****"+" "+"****"+" "+num.substr(num.length-4);
+      }, 
   },
-  created () {},
+  created () {
+      let token = localStorage.getItem("token");
+      this.baseJs.ajaxReq("/payment/user/bank/card",{},"get",token)
+      .then(res => {
+        //   console.log(res);
+          let bankList = res.data;
+          for(let i=0;i<bankList.length;i++){
+              if(bankList[i].bankType ==="中国银行"){
+                  bankList[i].num = 0
+              }else if(bankList[i].bankType ==="邮政储蓄银行"){
+                  bankList[i].num = 1
+              }else if(bankList[i].bankType ==="中国建设银行"){
+                  bankList[i].num = 2
+              }
+          }
+        this.list = bankList;
+      })
+      .catch(err => {
+          console.log(err);
+      })
+  },
   mounted () {},
 }
 </script>
@@ -167,11 +166,21 @@ export default {
         .detail{
             @include flex;
             .left{
-                img{
+                i{
+                    display: inline-block;
                     width: .64rem;
                     height: .64rem;
                     margin-bottom: -.18rem;
                     margin-right: .2rem;
+                    &.first{
+                        @include background_img("../withdraw/images/bank_01.png");
+                    }
+                    &.second{
+                        @include background_img("../withdraw/images/bank_02.png");
+                    }
+                    &.third{
+                        @include background_img("../withdraw/images/bank_03.png");
+                    }
                 }
             }
             .right{

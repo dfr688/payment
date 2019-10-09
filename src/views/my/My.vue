@@ -4,14 +4,14 @@
           <div class="my_account">
             <i class="back" @click="goBack"></i><p>账户</p>
             <div class="info">
-              <i></i><span v-if="isLogin">用户名<span class="user">183****7595</span></span><span v-if="!isLogin" @click="goLogin">登录/注册</span>
+              <i></i><span v-if="isLogin">用户名<span class="user">{{ phone }}</span></span><span v-if="!isLogin" @click="goLogin">登录/注册</span>
             </div>
           </div>
           <div class="total">
             <p>累计收款<i :class="{noSee:isSee}" @click="isSee =!isSee"></i></p>
             <div>
               <div class="left" v-if="!isSee">
-                ¥ 5560.58
+                ¥ {{ amount }}
               </div>
               <div class="left" v-if="isSee">
                 * * * *
@@ -35,7 +35,7 @@
                 <span></span>
               </div>
             </li>
-            <li>
+            <li @click="goDealPsw">
               <div class="left">
                 <i class="type_two"></i><span>交易密码</span>
               </div>
@@ -60,7 +60,7 @@
               </div>
             </li>
           </ul>
-          <Btn text="退出登录"/>
+          <Btn text="退出登录" @signOut="signOut"/>
       </Swiper>    
   </div>
 </template>
@@ -68,19 +68,23 @@
 <script>
 import Swiper from '../../components/common/Swiper'
 import Btn from '../../components/common/Btn'
+import {mapState} from 'vuex'
 export default {
  name: "",
   data () {
     return {
       isLogin: false,
-      isSee: false
+      isSee: false,
+      phone: ""
     }
   },
   components: {
       Swiper,
       Btn
   },
-  computed: {},
+  computed: {
+    ...mapState(["amount"])
+  },
   watch: {},
   methods: {
     goBack() {
@@ -109,9 +113,29 @@ export default {
     // 修改密码
     goModify() {
       this.$router.push("/modify");
+    },
+    // 交易密码
+    goDealPsw() {
+      this.$router.push("/dealpsw");
+    },
+    //隐藏手机中间四位
+		geTel(tel) {
+			return tel.substring(0, 3)+"****"+tel.substr(tel.length-4);
+    },
+    //退出登录
+    signOut() {
+      localStorage.removeItem("phone");
+      localStorage.removeItem("token");
+      this.isLogin = false;
     }
   },
-  created () {},
+  created () {
+    this.phone = localStorage.getItem("phone");
+		if(this.phone != null){
+		  this.phone = this.geTel(this.phone);
+		  this.isLogin = true;
+    }
+  },
   mounted () {},
 }
 </script>

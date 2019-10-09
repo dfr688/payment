@@ -8,7 +8,6 @@
 </template>
 
 <script>
-	import { Toast } from 'mint-ui';
 	function timeCountdown(obj) { //obj包括timer、waitTime 、canGet 
     const TIME_COUNT = 60; //默认倒计时秒数
     if (!obj.timer) {
@@ -58,29 +57,29 @@ computed: {
 methods:{
     getCode(){
         //在点击获取验证码的时候 判断手机是否正确 是否为空
-    	 if(this.phone == ""){
-			//  Toast({
-			//  	message: '手机号不能为空',
-			//  	duration: 1000
-			//  });
+    	if(this.phone == ""){
+			this.$toast({
+				message: '手机号不能为空',
+				duration: 1000
+			});
     		return false
     	}else if(!/^1[3-9]\d{9}$/.test(this.phone)){
-			//  Toast({
-			// 	message: '请输入正确的手机号',
-			// 	duration: 1000
-			// });
+			this.$toast({
+				message: '请输入正确的手机号',
+				duration: 1000
+			});
     		return false;
     	}else{
     		//倒计时开始
     		timeCountdown(this.login);  //参数为最终对象
-    		this.baseJs.ajaxReq("/jikeyou/api/sendSmsCode",{phone:this.phone},"get","")
+    		this.baseJs.ajaxReq("/payment/user/sms/send",{phone:this.phone},"get","")
     		.then(res => {
     			// console.log(res);
-    			if(res.code == "200"){
-					// Toast({
-					// 	message: res.msg,
-					// 	duration: 1000
-					// });
+    			if(res.code === 20000){
+					this.$toast({
+						message: '验证码发送成功 !',
+						duration: 1000
+					});
     			}
     		})
     		.catch(err => {

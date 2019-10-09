@@ -7,6 +7,10 @@ import './assets/js/rem'
 
 Vue.config.productionTip = false
 
+// 把封装的axios挂载到原型上
+import baseJS from './api'
+Vue.prototype.baseJs = baseJS
+
 import { Button } from 'vant';
 Vue.use(Button);
 

@@ -1,16 +1,22 @@
 <template>
-  <div class="modify">
+  <div class="dealPsw">
       <Swiper>
           <HeaderTop title="修改密码"/>
           <ul>
               <li>
-                  <input class="psw" type="tel" placeholder="请输入原密码" v-model="oldPsw"/>
+                  <input class="psw" type="tel" placeholder="请输入新的支付密码" v-model="dealPsw"/>
               </li>
               <li>
-                  <input class="psw" type="tel" placeholder="请输入新密码" v-model="newPsw"/>
+                  <input type="tel" placeholder="请输入手机号" v-model="phone"/>
+              </li>
+              <li>
+                  <div>
+                      <input type="tel" placeholder="请输入验证码" v-model="code"/>
+                      <Vcode :phone="phone"/>
+                  </div>
               </li>
           </ul>
-          <Btn text="确定" @goSure="goSure"/>
+          <Btn text="确定" @goConfirm="goConfirm"/>
       </Swiper>    
   </div>
 </template>
@@ -19,49 +25,56 @@
 import Swiper from '../../components/common/Swiper'
 import HeaderTop from '../../components/common/HeaderTop'
 import Btn from '../../components/common/Btn'
+import Vcode from '../../components/common/Vcode'
 export default {
  name: "",
   data () {
     return {
-        oldPsw: "",
-        newPsw: ""
+        dealPsw: "",
+        phone: "",
+        code: ""
     }
   },
   components: {
       Swiper,
       HeaderTop,
-      Btn
+      Btn,
+      Vcode
   },
   computed: {},
   watch: {},
   methods: {
-      goSure() {
-         if(this.oldPsw === ""){
+      goConfirm() {
+         if(this.dealPsw === ""){
              this.$toast({
-                 message: "请输入原密码",
+                 message: "请输入新的支付密码！",
                  duration: 1000
              });
-         }else if(this.newPsw === ""){
+         }else if(this.phone === ""){
              this.$toast({
-                 message: "请输入新密码",
+                 message: "请输入手机号!",
                  duration: 1000
              });
-         }else if(!/^[0-9]{6,18}$/.test(this.newPsw)){
+         }else if(this.code === ""){
              this.$toast({
-                 message: "请输入6到18位数字！",
+                 message: "请输入验证码！",
                  duration: 1000
              });
          }else{
-             let token = localStorage.getItem("token");
-             this.baseJs.ajaxReq("/payment/user/resetPassword",{password:this.oldPsw,newPassword:this.newPsw},"post",token)
+             this.baseJs.ajaxReq("/payment/user/resetPayPassword",{payPassword:this.dealPsw,phone:this.phone,smsCode:this.code},"post","")
              .then(res => {
-                //  console.log(res);
-                 if(res.code === 20000){
+                // console.log(res);
+                 if(res.code !== 20000){
                      this.$toast({
                         message: res.msg,
                         duration: 1000
                     });
-                    this.$router.push("/my");
+                 }else{
+                     this.$toast({
+                        message: res.msg,
+                        duration: 1000
+                    });
+                     this.$router.push("/my");
                  }
              })
              .catch(err => {
@@ -75,7 +88,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.modify{
+@import '../../assets/scss/_mixins.scss';
+.dealPsw{
     height: 100%;
     ul{
         margin: 1rem .4rem;
@@ -89,6 +103,9 @@ export default {
                 &.psw{
                     -webkit-text-security:disc;
                 }
+            }
+            div{
+                @include flex;
             }
         }
     }

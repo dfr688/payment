@@ -2,17 +2,29 @@
   <div class="receiveCode">
       <Swiper>
           <div class="top">
-              <i></i>收款码
+              <i @click="goBack"></i>收款码
           </div>
           <div class="contain">
-              <p>扫一扫向我付款</p>
-              <img src="./images/qrcode.png" alt=""/>
-              <div class="prompt">
-                  <i></i>每分钟自动更新，仅限当前使用
-              </div>
-              <div class="set">
-                  设置收款金额
-              </div>
+            <p>扫一扫向我付款</p>
+            <img src="./images/qrcode.png" alt=""/>
+            <div class="prompt">
+                <i></i>每分钟自动更新，仅限当前使用
+            </div>
+            <div class="set">
+                设置收款金额
+            </div>
+            <div class="bank">
+                <div class="left">
+                    <span></span>
+                    <div>
+                        <p>中国建设银行</p>
+                        <p>1111111111111111111</p>
+                    </div>
+                </div>
+                <div class="right">
+                    更换
+                </div>
+            </div>
           </div>
       </Swiper>    
   </div>
@@ -31,7 +43,11 @@ export default {
   },
   computed: {},
   watch: {},
-  methods: {},
+  methods: {
+      goBack() {
+          this.$router.push("/home");
+      }
+  },
   created () {},
   mounted () {},
 }
@@ -94,6 +110,30 @@ export default {
             line-height: .6rem;
             margin: 0 auto;
             margin-top: .3rem;
+        }
+        .bank{
+            margin: .8rem 1rem 0 .6rem;
+            @include flex;
+            .left{
+                span{
+                    display: inline-block;
+                    width: .64rem;
+                    height: .64rem;
+                    @include background_img("../withdraw/images/bank_03.png");
+                    margin-bottom: -.05rem;
+                }
+                div{
+                    display: inline-block;
+                    margin-left: .2rem;
+                    font-size: .24rem;
+                    text-align: left;
+                }
+            }
+            .right{
+                font-size: .24rem;
+                color: #999;
+                margin-top: .3rem;
+            }
         }
     }
 }

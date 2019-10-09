@@ -64,7 +64,16 @@ export default {
   methods: {
 
   },
-  created () {},
+  created () {
+      let token = localStorage.getItem("token");
+      this.baseJs.ajaxReq("/payment/user/transaction/record",{},"get",token)
+      .then(res => {
+          console.log(res);
+      })
+      .catch(err => {
+          console.log(err);
+      })
+  },
   mounted () {},
 }
 </script>

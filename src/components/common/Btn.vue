@@ -21,6 +21,16 @@ export default {
     handle() {
       // 提现按钮
       this.$emit("withDraw");
+      // 退出登录按钮
+      this.$emit("signOut");
+      // 修改密码确定按钮
+      this.$emit("goSure");
+      // 修改支付密码确定按钮
+      this.$emit("goConfirm");
+      // 提交认证按钮
+      this.$emit("submitIdentify");
+      // 添加银行卡提交按钮
+      this.$emit("submitInfo");
     }
   },
   created () {},

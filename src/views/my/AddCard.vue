@@ -8,31 +8,36 @@
           <ul>
               <li>
                   <p>姓名</p>
-                  <input type="text" placeholder="请填写您的姓名"/>
+                  <input type="text" placeholder="请填写您的姓名" v-model="personName"/>
               </li>
               <li>
                   <p>开户银行</p>
-                  <input type="text" placeholder="请填写您银行卡的开户行"/>
+                  <select v-model="selected">
+                        <option disabled value="">请选择您银行卡的开户行</option>
+                        <option>中国银行</option>
+                        <option>邮政储蓄银行</option>
+                        <option>中国建设银行</option>
+                  </select>
               </li>
               <li>
                   <p>银行卡号</p>
-                  <input type="text" placeholder="请填写银行卡卡号"/>
+                  <input type="tel" placeholder="请填写银行卡卡号" v-model="bankNum"/>
               </li>
               <li>
                   <p>手机号</p>
-                  <input type="text" placeholder="请填写银行预留手机号"/>
+                  <input type="tel" placeholder="请填写银行预留手机号" v-model="phone"/>
               </li>
               <li class="code_input">
                   <p>验证码</p>
                   <div class="wrap">
-                      <input type="text" placeholder="请填写手机验证码"/>
+                      <input type="tel" placeholder="请填写手机验证码" v-model="code"/>
                       <div>
-                          <Vcode/>
+                          <Vcode :phone="phone"/>
                       </div>
                   </div>
               </li>
           </ul>
-          <Btn text="提交"/>
+          <Btn text="提交" @submitInfo="submitInfo"/>
       </Swiper>    
   </div>
 </template>
@@ -46,6 +51,11 @@ export default {
  name: "",
   data () {
     return {
+        personName: "",
+        selected: "",
+        bankNum: "",
+        phone: "",
+        code: ""
     }
   },
   components: {
@@ -56,7 +66,60 @@ export default {
   },
   computed: {},
   watch: {},
-  methods: {},
+  methods: {
+    //提交按钮
+    submitInfo() {
+        if(this.personName === ""){
+            this.$toast({
+                message: "请填写您的姓名！",
+                duration: 1000
+            });
+        }else if(this.selected ===""){
+            this.$toast({
+                message: "请选择您银行卡的开户行！",
+                duration: 1000
+            });
+        }else if(this.bankNum ===""){
+            this.$toast({
+                message: "请填写银行卡卡号！",
+                duration: 1000
+            });
+        }else if(this.phone ===""){
+            this.$toast({
+                message: "请填写银行预留手机号！",
+                duration: 1000
+            });
+        }else if(this.code ===""){
+            this.$toast({
+                message: "请填写手机验证码!",
+                duration: 1000
+            });
+        }else{
+            let token = localStorage.getItem("token");
+            let data = {
+                name: this.personName,
+                bankType: this.selected,
+                cardNo: this.bankNum,
+                phone: this.phone,
+                smsCode: this.code
+            }
+            this.baseJs.ajaxReq("/payment/user/bank/card",data,"post",token)
+            .then(res => {
+                // console.log(res);
+                if(res.code === 20000){
+                    this.$toast({
+                        message: res.msg,
+                        duration: 1000
+                    });
+                    this.$router.push("/card");
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
+    }   
+  },
   created () {},
   mounted () {},
 }
@@ -99,6 +162,14 @@ export default {
                 .wrap{
                     @include flex;
                 }
+            }
+            select{
+                font-size: .32rem;
+                border: none;
+                appearance:none; /*清除select默认样式 */
+                -moz-appearance:none;
+                -webkit-appearance:none;
+                margin-left: -.1rem;
             }
         }
     }

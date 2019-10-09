@@ -11,7 +11,7 @@
                 </li>
             </ul>
             <div class="today_receive">
-                <p><i>¥</i> 1388.52</p>
+                <p><i>¥</i> {{ todayIncome }}</p>
                 <span>今日收款</span>
             </div>
             <ul class="sort">
@@ -83,6 +83,7 @@
 
 <script>
 import Swiper from '../../components/common/Swiper'
+import {mapState} from 'vuex'
 export default {
  name: "",
   data () {
@@ -92,7 +93,9 @@ export default {
   components: {
       Swiper
   },
-  computed: {},
+  computed: {
+      ...mapState(["todayIncome"])
+  },
   watch: {},
   methods: {
     //我的页面
@@ -112,7 +115,23 @@ export default {
         this.$router.push("/paymentcode");
     }
   },
-  created () {},
+  created () {
+      let token = localStorage.getItem("token");
+      this.baseJs.ajaxReq("/payment/user/info",{},"get",token)
+      .then(res => {
+        //   console.log(res);
+          if(res.code === 20000){
+              this.$store.dispatch('changeInfo', {
+                  todayIncome: res.data.todayIncome,
+                  balance: res.data.userInfo.balance,
+                  amount: res.data.userInfo.amount,
+              })
+          }
+      })
+      .catch(err => {
+          console.log(err);
+      })
+  },
   mounted () {},
 }
 </script>
