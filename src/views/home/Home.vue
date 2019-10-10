@@ -15,7 +15,7 @@
                 <span>今日收款</span>
             </div>
             <ul class="sort">
-                <li>
+                <li @click="goScan">
                     <span class="scan"></span>
                     <p>扫一扫</p>
                 </li>
@@ -84,6 +84,7 @@
 <script>
 import Swiper from '../../components/common/Swiper'
 import {mapState} from 'vuex'
+import { Dialog } from 'vant';
 export default {
  name: "",
   data () {
@@ -105,6 +106,14 @@ export default {
     //更多
     goDealRecord() {
         this.$router.push("/dealrecord");
+    },
+    // 扫一扫
+    goScan() {
+        Dialog.alert({
+        message: '请实名认证后再使用'
+        }).then(() => {
+            // this.$router.push("/my");
+        });
     },
     // 收款
     goReceiveCode() {

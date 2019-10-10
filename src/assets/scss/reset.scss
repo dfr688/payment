@@ -79,3 +79,10 @@ textarea{
 .van-dialog__confirm, .van-dialog__confirm:active{
 	color: #495aff!important;
 }
+
+#qrCode{
+	img{
+		width: 3.46rem;
+    	height: 3.46rem;
+	}
+}

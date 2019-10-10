@@ -60,7 +60,7 @@ export default {
                 // console.log(res);
                 if(res.code === 20000){
                     Dialog.alert({
-                    message: '认证成功'
+                    message: '信息已提交，请等待客服审核'
                     }).then(() => {
                         this.$router.push("/my");
                     });
