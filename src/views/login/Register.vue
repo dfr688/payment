@@ -12,7 +12,7 @@
                  </li>
                  <li>
                      <div class="psw_icon"></div>
-                     <input class="psw" type="tel" placeholder="请输入密码" v-model="psw"/>
+                     <input class="psw" type="password" placeholder="请输入密码" v-model="psw"/>
                  </li>
                  <li class="code_input">
                      <div class="code_icon"></div>
@@ -26,6 +26,9 @@
              </ul>
              <div class="btn" @click="goRegister">
                  注册
+             </div>
+             <div class="tip">
+                 注册即代表同意<span @click="goPrivacy">《隐私政策》</span>
              </div>
           </div>
       </Com>  
@@ -97,6 +100,9 @@ export default {
                 console.log(err);
             })
         }
+      },
+      goPrivacy() {
+          this.$router.push("/privacy");
       }
   },
   created () {},
@@ -131,6 +137,14 @@ export default {
         }
         .btn{
             margin-top: .7rem!important;
+        }
+        .tip{
+            font-size: .24rem;
+            text-align: center;
+            margin-top: .1rem;
+            span{
+                color: #495aff;
+            }
         }
     }
 }

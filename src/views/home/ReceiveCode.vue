@@ -19,14 +19,14 @@
             </div>
             <div class="bank">
                 <div class="left">
-                    <span></span>
+                    <span :class="{one: 1===index,two:2===index,three: 3===index}"></span>
                     <div>
-                        <p>中国建设银行</p>
-                        <p>1111111111111111111</p>
+                        <p>{{ bank.bankType }}</p>
+                        <p v-if="bank.cardNo !=undefined">{{ hiddenNum(bank.cardNo) }}</p>
                     </div>
                 </div>
                 <div class="right">
-                    更换
+                    <!-- 更换 -->
                 </div>
             </div>
           </div>
@@ -49,7 +49,9 @@ export default {
         money: "",
         cost: "",
         show: false,
-        see: false
+        see: false,
+        bank: "",
+        index: 0
     }
   },
   components: {
@@ -84,9 +86,35 @@ export default {
     showPop() {
         this.show = true;
         this.cost = "";
+    },
+    // 隐藏卡号中间几位
+    hiddenNum(num){
+        return num.substr(0,4) +" ******* "+ num.substr(-4);
     }
   },
-  created () {},
+  created () {
+      let token = localStorage.getItem("token");
+      this.baseJs.ajaxReq("/payment/user/bank/card",{},"get",token)
+      .then(res => {
+        // console.log(res);
+        this.bank = res.data[0];
+        if(this.bank.bankType ==="中国银行"){
+            this.index = 1;
+            return;
+        }
+        if(this.bank.bankType ==="邮政储蓄银行"){
+            this.index = 2;
+            return;
+        }
+        if(this.bank.bankType ==="中国建设银行"){
+            this.index = 3;
+            return;
+        }
+      })
+      .catch(err => {
+          console.log(err);
+      })
+  },
   mounted () {},
 }
 </script>
@@ -181,8 +209,16 @@ export default {
                     display: inline-block;
                     width: .64rem;
                     height: .64rem;
-                    @include background_img("../withdraw/images/bank_03.png");
                     margin-bottom: -.05rem;
+                    &.one{
+                        @include background_img("../withdraw/images/bank_01.png");
+                    }
+                    &.two{
+                        @include background_img("../withdraw/images/bank_02.png");
+                    }
+                    &.three{
+                        @include background_img("../withdraw/images/bank_03.png");
+                    }
                 }
                 div{
                     display: inline-block;

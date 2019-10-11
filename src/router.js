@@ -1,19 +1,31 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+// 解决vue router 报错： Uncaught (in promise) 
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/home',
       name: 'home',
-      component: () => import('./views/home/Home')
+      component: () => import('./views/home/Home'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/my',
       name: 'my',
-      component: () => import('./views/my/My')
+      component: () => import('./views/my/My'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/withdraw',
@@ -86,8 +98,35 @@ export default new Router({
       component: () => import('./views/my/DealPsw')
     },
     {
+      path: '/privacy',
+      name: 'privacy',
+      component: () => import('./views/login/Privacy')
+    },
+    {
       path: '*',
       redirect: '/home'
     }
   ]
-})
+});
+import { Toast } from 'vant';
+//  路由权限控制 进入my组件时候 需要登录状态
+router.beforeEach((to,from,next) => {
+  // console.log(to.meta.requiresAuth)
+  if(to.meta.requiresAuth){
+    // 如果不为空 说明已经登录 直接放行
+   // console.log(localStorage.getItem("token"));
+    if(localStorage.getItem("token")!= null){
+      next();
+    }else{
+     Toast({
+        message: '请先登录！',
+        duration: 1000
+      });
+      next({path: "/login"});
+    }
+  }else{
+    next();
+  }
+   });
+
+export default router;

@@ -100,6 +100,7 @@ export default {
             font-size: .32rem;
             input{
                 font-size: .32rem;
+                width: 100%;
                 &.psw{
                     -webkit-text-security:disc;
                 }

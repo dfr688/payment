@@ -2,7 +2,7 @@
   <div class="dealRecord">
       <Swiper>
         <HeaderTop title="交易记录"/>
-        <div class="lately_deal">
+        <div class="lately_deal" v-if="show">
             <ul>
                 <li>
                     <div class="left">
@@ -42,6 +42,10 @@
                 </li>
             </ul>
         </div>
+        <div class="nothing" v-if="!show">
+            <div></div>
+            暂无交易记录
+        </div>
       </Swiper>    
   </div>
 </template>
@@ -53,6 +57,8 @@ export default {
  name: "",
   data () {
     return {
+        list: [],
+        show: false
     }
   },
   components: {
@@ -68,7 +74,13 @@ export default {
       let token = localStorage.getItem("token");
       this.baseJs.ajaxReq("/payment/user/transaction/record",{},"get",token)
       .then(res => {
-          console.log(res);
+        //   console.log(res);
+          if(res.code === 20000){
+              this.list = res.data;
+              if(this.list.length === 0){
+                  this.show = false;
+              }
+          }
       })
       .catch(err => {
           console.log(err);
@@ -111,6 +123,19 @@ export default {
                     font-size: .38rem;
                 }
             }
+        }
+    }
+    .nothing{
+        text-align: center;
+        font-size: .32rem;
+        color: #999;
+        margin-top: 3rem;
+        div{
+            width: 1.28rem;
+            height: 1.28rem;
+            @include background_img("./images/nothing.png");
+            margin: 0 auto;
+            margin-bottom: .2rem;
         }
     }
 }

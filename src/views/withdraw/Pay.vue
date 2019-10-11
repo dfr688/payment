@@ -26,6 +26,7 @@
 </template>
 <script>
 const keys = () => [1, 2, 3, 4, 5, 6, 7, 8, 9, '', 0]
+import { Dialog } from 'vant';
 export default {
   data () {
     return {
@@ -68,7 +69,12 @@ export default {
   watch: {
       password(newV,oldV){
           if(newV.length == 6){
-            this.$router.push("/apply");
+            // this.$router.push("/apply");
+            Dialog.alert({
+              title: '温馨提示',
+              message: '余额不足！'
+            })
+            this.password = ''
           }
       }
   }

@@ -43,7 +43,7 @@
                 <span></span>
               </div>
             </li>
-            <li>
+            <li @click="goPrivacy">
               <div class="left">
                 <i class="type_three"></i><span>隐私政策</span>
               </div>
@@ -118,6 +118,10 @@ export default {
     goDealPsw() {
       this.$router.push("/dealpsw");
     },
+    // 隐私政策
+    goPrivacy() {
+      this.$router.push("/privacy");
+    },
     //隐藏手机中间四位
 		geTel(tel) {
 			return tel.substring(0, 3)+"****"+tel.substr(tel.length-4);
@@ -127,6 +131,7 @@ export default {
       localStorage.removeItem("phone");
       localStorage.removeItem("token");
       this.isLogin = false;
+      this.$router.push("/login");
     }
   },
   created () {

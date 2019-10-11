@@ -1,6 +1,6 @@
 <template>
   <div class="com">
-      <i class="back"></i>
+      <i class="back" @click="goBack"></i>
       <div class="wrap">
           <div class="title">
               <p>{{ word }}</p>
@@ -24,7 +24,11 @@ export default {
   components: {},
   computed: {},
   watch: {},
-  methods: {},
+  methods: {
+      goBack() {
+          this.$router.go(-1);
+      }
+  },
   created () {},
   mounted () {},
 }
@@ -35,7 +39,7 @@ export default {
     width: 100%;
     height: 100%;
     padding-top: 2rem;
-    @include background_img("./images/bground.png");
+    @include background_img("./images/bground.png",left,top,cover);
     position: relative;
     overflow: hidden;
     .back{

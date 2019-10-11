@@ -38,7 +38,7 @@
                     更多
                 </div>
             </div>
-            <ul>
+            <ul v-if="see">
                 <li>
                     <div class="left">
                         <img src="./images/type_01.png" alt=""/>
@@ -76,6 +76,9 @@
                     </div>
                 </li>
             </ul>
+            <div class="nothing">
+                暂无交易记录
+            </div>
         </div>
       </Swiper>    
   </div>
@@ -89,6 +92,7 @@ export default {
  name: "",
   data () {
     return {
+        see: false
     }
   },
   components: {
@@ -268,6 +272,11 @@ export default {
                     font-size: .38rem;
                 }
             }
+        }
+        .nothing{
+            font-size: .32rem;
+            text-align: center;
+            margin-top: 1.2rem;
         }
     }
 }

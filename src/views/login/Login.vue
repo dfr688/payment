@@ -12,7 +12,7 @@
                  </li>
                  <li>
                      <div class="psw_icon"></div>
-                     <input class="psw" type="tel" placeholder="请输入密码" v-model="psw"/>
+                     <input class="psw" type="password" placeholder="请输入密码" v-model="psw"/>
                  </li>
              </ul>
              <div class="btn" @click="goLogin">
@@ -72,7 +72,7 @@ export default {
                 message: res.msg,
                 duration: 1000
             });
-            this.$router.push("/my");
+            this.$router.push("/home");
           }
         })
         .catch(err => {

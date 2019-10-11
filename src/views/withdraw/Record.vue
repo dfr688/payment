@@ -2,7 +2,7 @@
   <div class="record">
       <Swiper>
         <HeaderTop title="提现记录"/>
-        <ul class="detail">
+        <ul class="detail" v-if="show">
           <li>
             <div class="left">
               <p>发起提现</p>
@@ -34,6 +34,10 @@
             </div>
           </li>
         </ul>
+        <div class="nothing" v-if="!show">
+            <div></div>
+            暂无提现记录
+        </div>
       </Swiper>  
   </div>
 </template>
@@ -45,6 +49,7 @@ export default {
  name: "",
   data () {
     return {
+      show: false
     }
   },
   components: {
@@ -90,5 +95,18 @@ export default {
       }
     }
   }
+  .nothing{
+        text-align: center;
+        font-size: .32rem;
+        color: #999;
+        margin-top: 3rem;
+        div{
+            width: 1.28rem;
+            height: 1.28rem;
+            @include background_img("../my/images/nothing.png");
+            margin: 0 auto;
+            margin-bottom: .2rem;
+        }
+    }
 }
 </style>

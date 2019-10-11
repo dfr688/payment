@@ -1,8 +1,8 @@
 import Axios from 'axios'
 
 // 封装post请求 封装get请求
-	// const host = "https://api.51jikeyou.com:9001";
-	const host = "http://192.168.90.41:9001";
+	const host = "https://api.51jikeyou.com:9000";
+	// const host = "http://192.168.90.41:9001";
 	export default{
 		ajaxReq(reqUrl,data,type="get",token="") {
 			 reqUrl = host + reqUrl;

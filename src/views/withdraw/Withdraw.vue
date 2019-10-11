@@ -21,7 +21,7 @@
         </swiper>
         <div class="amount">
             <p>提现金额</p>
-            <span>¥</span><input type="text" v-model="money" placeholder="请输入提现金额"/>
+            <span>¥</span><input type="tel" v-model="money" placeholder="请输入提现金额"/>
             <div>
                 <div class="left">
                     可提现金额{{ balance }}
@@ -104,6 +104,11 @@ export default {
         if(this.money === ""){
             this.$toast.fail({
                 message: '请输入提现金额',
+                duration: 1000,
+            });
+        }else if(this.money === 0){
+            this.$toast.fail({
+                message: '提现金额不足',
                 duration: 1000,
             });
         }else{
